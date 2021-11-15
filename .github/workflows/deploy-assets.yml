@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source Git branch
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+
+      - run: npm install
+
+      - name: Create destination directory for compiled CSS
+        run: mkdir -p dist/styles
+
+      - name: Compile core.css
+        uses: gha-utilities/sass-build@v0.4.7
+        with:
+          source: assets-src/styles/core.scss
+          destination: dist/styles/core.css
+
+      - name: Compile advanced.css
+        uses: gha-utilities/sass-build@v0.4.7
+        with:
+          source: assets-src/styles/advanced.scss
+          destination: dist/styles/advanced.css
+
+      - name: Compile print.css
+        uses: gha-utilities/sass-build@v0.4.7
+        with:
+          source: assets-src/styles/print.scss
+          destination: dist/styles/print.css
